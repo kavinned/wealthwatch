@@ -19,7 +19,11 @@ export default function Search() {
 				`https://api.polygon.io/v3/reference/tickers?search=${searchTerm}&active=true&order=asc&limit=100&apiKey=${process.env.NEXT_PUBLIC_POLYGON_API_KEY}`,
 			);
 			const data = await response.json();
-			setStocks(data.results);
+			const results = data.results ?? [];
+			const isExact = (stock) =>
+				stock.ticker?.toUpperCase() === searchTerm ||
+				stock.name?.toUpperCase() === searchTerm;
+			setStocks([...results.filter(isExact), ...results.filter((s) => !isExact(s))]);
 			setLoading(false);
 		}
 		fetchStocks();
@@ -78,7 +82,7 @@ export default function Search() {
 						data-stock={`stock-item-${stock.ticker}`}
 						ref={resultsRef}
 						href={`/stocks/${stock.ticker}`}
-						className="card-dark p-4 transition-colors duration-150 hover:ring-emerald-400/40"
+						className="card-dark p-4 transition-colors duration-150 hover:bg-zinc-800"
 						key={stock.ticker}
 					>
 						<p className="tabular text-sm font-semibold text-zinc-100">
