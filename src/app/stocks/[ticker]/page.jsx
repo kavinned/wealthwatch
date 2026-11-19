@@ -21,7 +21,7 @@ export default async function StockDetails({ params }) {
   const stock = await fetchStockData(ticker);
 
   return (
-    <div className="page-shell py-8">
+    <div className="page-shell py-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div className="min-w-0">
           <p className="text-sm font-medium text-muted">{stock.exchange}</p>
@@ -63,6 +63,11 @@ export default async function StockDetails({ params }) {
           <Metric label="Industry" value={stock.industry} />
         </div>
       </div>
+
+      <p className="mt-8 text-xs text-muted">
+        For informational purposes only — not financial advice. Market data may
+        be delayed or inaccurate.
+      </p>
     </div>
   );
 }
