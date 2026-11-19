@@ -19,9 +19,10 @@ export async function fetchStockOverview(ticker) {
 }
 
 export default async function StockDetails({ params }) {
+  const { ticker } = await params;
   const [stock, stockOverview] = await Promise.all([
-    fetchStock(params.ticker),
-    fetchStockOverview(params.ticker),
+    fetchStock(ticker),
+    fetchStockOverview(ticker),
   ]);
 
   const latestPrice = stock["Time Series (Daily)"][
@@ -50,7 +51,7 @@ export default async function StockDetails({ params }) {
       </div>
       <div className="flex w-full flex-col items-center justify-center">
         <div className="mb-5 flex h-fit w-[90%] flex-col items-center justify-center gap-5 xl:mb-0 xl:grid xl:grid-cols-9 xl:place-content-center xl:place-items-center">
-          <div className="order-2 col-span-2 flex h-fit w-full flex-col gap-5 rounded-lg border-2 border-slate-400 border-opacity-50 bg-zinc-200 p-3 shadow-2xl drop-shadow-2xl">
+          <div className="order-2 col-span-2 flex h-fit w-full flex-col gap-5 rounded-lg border-2 border-slate-400/50 bg-zinc-200 p-3 shadow-2xl drop-shadow-2xl">
             <p className="stock-overview">
               Analyst Target: <br />{" "}
               <span className="bubble bg-blue-300">
@@ -76,13 +77,13 @@ export default async function StockDetails({ params }) {
               </span>
             </p>
           </div>
-          <div className="order-1 col-span-5 flex h-full w-full flex-col items-center justify-center gap-10 rounded-lg border-2 border-slate-400 border-opacity-50 bg-zinc-200 p-3 shadow-2xl drop-shadow-2xl">
+          <div className="order-1 col-span-5 flex h-full w-full flex-col items-center justify-center gap-10 rounded-lg border-2 border-slate-400/50 bg-zinc-200 p-3 shadow-2xl drop-shadow-2xl">
             <h2 className="text-xl font-semibold text-zinc-700">
               Prices for the last 30 days
             </h2>
             <Chart stock={stock} />
           </div>
-          <div className="order-3 col-span-2 flex h-fit w-full flex-col gap-5 rounded-lg border-2 border-slate-400 border-opacity-50 bg-zinc-200 p-3 shadow-2xl drop-shadow-2xl">
+          <div className="order-3 col-span-2 flex h-fit w-full flex-col gap-5 rounded-lg border-2 border-slate-400/50 bg-zinc-200 p-3 shadow-2xl drop-shadow-2xl">
             <p className="stock-overview">
               Asset Type: <br />{" "}
               <span className="bubble">{stockOverview.AssetType}</span>

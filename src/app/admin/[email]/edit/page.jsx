@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 
 export default function EditUserPage({ params }) {
@@ -10,25 +10,26 @@ export default function EditUserPage({ params }) {
     role: "",
   });
   const router = useRouter();
+  const { email } = use(params);
 
   useEffect(() => {
     async function fetchUser() {
-      const res = await fetch(`/api/users/${params.email}`);
+      const res = await fetch(`/api/users/${email}`);
       const data = await res?.json();
       setUser(data);
     }
     fetchUser();
-  }, [params.email]);
+  }, [email]);
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const { name, email, role } = user;
-    const res = await fetch(`/api/users/${params.email}`, {
+    const { name, email: newEmail, role } = user;
+    const res = await fetch(`/api/users/${email}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, email, role }),
+      body: JSON.stringify({ name, email: newEmail, role }),
     });
     await res.json();
     router.push("/admin");

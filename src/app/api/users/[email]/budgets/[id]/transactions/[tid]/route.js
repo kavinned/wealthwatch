@@ -3,14 +3,15 @@ import { connectDB } from "../../../../../../../../../libs/mongodb";
 import { User } from "@/app/(models)/user";
 
 export async function GET(request, { params }) {
+  const { email, id, tid } = await params;
   try {
     await connectDB();
-    const user = await User.findOne({ email: params.email });
+    const user = await User.findOne({ email: email });
     const budget = user?.budgets?.find(
-      (budget) => budget._id.toString() == params.id,
+      (budget) => budget._id.toString() == id,
     );
     const transaction = budget?.transactions?.find(
-      (transaction) => transaction._id.toString() == params.tid,
+      (transaction) => transaction._id.toString() == tid,
     );
     return NextResponse.json(transaction, { status: 200 });
   } catch (error) {
@@ -19,14 +20,15 @@ export async function GET(request, { params }) {
 }
 
 export async function DELETE(request, { params }) {
+  const { email, id, tid } = await params;
   try {
     await connectDB();
-    const user = await User.findOne({ email: params.email });
+    const user = await User.findOne({ email: email });
     const budget = user?.budgets?.find(
-      (budget) => budget._id.toString() == params.id,
+      (budget) => budget._id.toString() == id,
     );
     const transaction = budget?.transactions?.filter(
-      (transaction) => transaction._id.toString() != params.tid,
+      (transaction) => transaction._id.toString() != tid,
     );
     budget.transactions = transaction;
     await user.save();
@@ -37,18 +39,19 @@ export async function DELETE(request, { params }) {
 }
 
 export async function PUT(request, { params }) {
+  const { email, id, tid } = await params;
   const { amount, category, date, description, type } = await request.json();
   if (!amount || !category || !date || !description || !type) {
     throw new Error("Please fill in all fields");
   }
   try {
     await connectDB();
-    const user = await User.findOne({ email: params.email });
+    const user = await User.findOne({ email: email });
     const budget = user?.budgets?.find(
-      (budget) => budget._id.toString() == params.id,
+      (budget) => budget._id.toString() == id,
     );
     const transaction = budget?.transactions?.find(
-      (transaction) => transaction._id.toString() == params.tid,
+      (transaction) => transaction._id.toString() == tid,
     );
     transaction.amount = amount;
     transaction.category = category;

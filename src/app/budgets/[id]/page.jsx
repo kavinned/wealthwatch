@@ -13,7 +13,7 @@ async function fetchBudget(email, id) {
   return res?.json();
 }
 export default async function Budget({ params }) {
-  const { id } = params;
+  const { id } = await params;
   const session = await getServerSession();
   const budget = await fetchBudget(session?.user?.email, id);
   const spentAmt = budget.transactions.reduce((acc, curr) => {

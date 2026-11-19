@@ -1,12 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, use } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export default function AddTransactionPage({ params }) {
   const [error, setError] = useState("");
   const router = useRouter();
-  const { id } = params;
+  const { id } = use(params);
   const { data: session } = useSession();
   const email = session?.user?.email;
   const handleSubmit = async (event) => {

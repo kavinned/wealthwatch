@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, use } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Loading from "@/app/loading";
@@ -13,18 +13,9 @@ export default function EditTransactionPage({ params }) {
     description: "",
     amount: 0,
   });
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { id, tid } = params;
+  const { id, tid } = use(params);
   const { data: session, status } = useSession();
-
-  useEffect(() => {
-    if (status === "loading") {
-      setLoading(true);
-    } else {
-      setLoading(false);
-    }
-  }, [status, router, session?.user?.email]);
 
   const email = session?.user?.email;
   useEffect(() => {
@@ -78,7 +69,7 @@ export default function EditTransactionPage({ params }) {
     }
   };
 
-  if (loading) return <Loading />;
+  if (status === "loading") return <Loading />;
 
   return (
     <div className="flex h-[calc(100dvh-7dvh)] w-full items-center justify-center">

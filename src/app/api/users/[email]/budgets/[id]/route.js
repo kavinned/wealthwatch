@@ -3,11 +3,12 @@ import { connectDB } from "../../../../../../../libs/mongodb";
 import { User } from "@/app/(models)/user";
 
 export async function GET(request, { params }) {
+  const { email, id } = await params;
   try {
     await connectDB();
-    const user = await User?.findOne({ email: params.email });
+    const user = await User?.findOne({ email: email });
     const budget = user?.budgets?.find(
-      (budget) => budget?._id.toString() == params.id,
+      (budget) => budget?._id.toString() == id,
     );
     return NextResponse.json(budget, { status: 200 });
   } catch (error) {
@@ -16,11 +17,12 @@ export async function GET(request, { params }) {
 }
 
 export async function DELETE(request, { params }) {
+  const { email, id } = await params;
   try {
     await connectDB();
-    const user = await User.findOne({ email: params.email });
+    const user = await User.findOne({ email: email });
     const budget = user?.budgets?.filter(
-      (budget) => budget._id.toString() != params.id,
+      (budget) => budget._id.toString() != id,
     );
     user.budgets = budget;
     await user?.save();
@@ -31,15 +33,16 @@ export async function DELETE(request, { params }) {
 }
 
 export async function PUT(request, { params }) {
+  const { email, id } = await params;
   const { name, limit } = await request.json();
   if (!name || !limit) {
     throw new Error("Please fill in all fields");
   }
   try {
     await connectDB();
-    const user = await User.findOne({ email: params.email });
+    const user = await User.findOne({ email: email });
     const budget = user?.budgets?.find(
-      (budget) => budget._id.toString() == params.id,
+      (budget) => budget._id.toString() == id,
     );
     budget.name = name;
     budget.limit = limit;
