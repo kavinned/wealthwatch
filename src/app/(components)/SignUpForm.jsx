@@ -39,6 +39,7 @@ export default function SignUpForm() {
         body: JSON.stringify({ name, email, password }),
       });
       if (res.ok) {
+        sessionStorage.setItem("signupSuccess", "1");
         router.push("/");
       }
       if (!res.ok) {
