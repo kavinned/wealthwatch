@@ -7,7 +7,6 @@ export const POST = async (request) => {
   try {
     await connectDB();
     const { name, email, password } = await request.json();
-    console.log(name, email, password);
     if (!name || !email || !password) {
       return NextResponse.json(
         { message: "Please fill in all fields" },
@@ -22,7 +21,8 @@ export const POST = async (request) => {
       );
     }
     console.log(checkExisting);
-    const hashedPassword = await bcrypt.hash(password, 5);
+    console.log(checkExisting);
+    const hashedPassword = await bcrypt.hash(password, 10);
     await User.create({ name, email, password: hashedPassword });
     return NextResponse.json({ message: "success" }, { status: 201 });
   } catch (error) {
