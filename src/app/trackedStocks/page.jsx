@@ -2,6 +2,7 @@ import Link from "next/link";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import TrackedStocksList from "../(components)/TrackedStocksList";
 import { getServerSession } from "next-auth";
+import { fetchStockQuotes } from "../../../libs/stockData";
 
 export default async function TrackedStocksPage() {
   const session = await getServerSession(authOptions);
@@ -11,9 +12,10 @@ export default async function TrackedStocksPage() {
       cache: "no-store",
     },
   ).then((res) => res.json());
+  const quotes = await fetchStockQuotes(stocks.map((stock) => stock.symbol));
 
   return (
-    <div className="page-shell py-8">
+    <div className="page-shell py-6">
       <h1 className="page-title">Tracked stocks</h1>
       {stocks.length === 0 && (
         <div className="card-light mt-6 p-6 text-sm text-muted">
@@ -26,9 +28,14 @@ export default async function TrackedStocksPage() {
           </Link>
         </div>
       )}
-      <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-6 space-y-3">
         {stocks.map((stock) => (
-          <TrackedStocksList session={session} stock={stock} key={stock._id} />
+          <TrackedStocksList
+            session={session}
+            stock={stock}
+            quote={quotes[stock.symbol]}
+            key={stock._id}
+          />
         ))}
       </ul>
     </div>

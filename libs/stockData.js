@@ -4,6 +4,34 @@ const yahooFinance = new YahooFinance({ suppressNotices: ["yahooSurvey"] });
 
 const fixed = (value) => (value == null ? "N/A" : Number(value).toFixed(2));
 
+const quoteCache = new Map();
+const QUOTE_TTL = 60 * 1000;
+
+export async function fetchStockQuotes(symbols = []) {
+	const now = Date.now();
+	const upper = symbols.map((symbol) => symbol.toUpperCase());
+	const missing = [...new Set(upper)].filter((symbol) => {
+		const cached = quoteCache.get(symbol);
+		return !cached || cached.expires < now;
+	});
+
+	if (missing.length > 0) {
+		const quotes = await yahooFinance.quote(missing);
+		for (const quote of Array.isArray(quotes) ? quotes : [quotes]) {
+			quoteCache.set(quote.symbol, {
+				name: quote.longName || quote.shortName || quote.symbol,
+				price: quote.regularMarketPrice,
+				change: quote.regularMarketChangePercent,
+				expires: now + QUOTE_TTL,
+			});
+		}
+	}
+
+	return Object.fromEntries(
+		upper.map((symbol) => [symbol, quoteCache.get(symbol) ?? null]),
+	);
+}
+
 export async function fetchStockData(ticker) {
 	const symbol = ticker.toUpperCase();
 	const [summary, chart] = await Promise.all([

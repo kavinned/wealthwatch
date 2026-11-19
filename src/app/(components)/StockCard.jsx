@@ -1,5 +1,6 @@
 import Link from "next/link";
 import StockInfo from "./StockInfo";
+import { fetchStockQuotes } from "../../../libs/stockData";
 
 export default async function StockCard({ session }) {
   const stocks = await fetch(
@@ -9,8 +10,10 @@ export default async function StockCard({ session }) {
     },
   ).then((res) => res?.json());
 
+  const quotes = await fetchStockQuotes(stocks?.map((stock) => stock.symbol));
+
   return (
-    <div className="card-dark w-full max-w-md p-5 md:p-6">
+    <div className="card-dark w-full p-4 md:p-5">
       <div className="mb-2 flex items-center justify-between">
         <h5 className="text-base font-semibold text-white">Stocks</h5>
         <Link
@@ -33,7 +36,11 @@ export default async function StockCard({ session }) {
           </li>
         )}
         {stocks?.slice(0, 3).map((stock) => (
-          <StockInfo stock={stock} key={stock._id} />
+          <StockInfo
+            stock={stock}
+            quote={quotes[stock.symbol]}
+            key={stock._id}
+          />
         ))}
         {stocks?.length > 3 && (
           <li className="tabular pt-3 text-right text-xs text-zinc-500">
