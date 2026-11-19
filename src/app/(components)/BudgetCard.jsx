@@ -8,7 +8,7 @@ export default async function BudgetCard({ session }) {
   ).then((res) => res?.json());
 
   return (
-    <div className="card-dark w-full max-w-md p-5 md:p-6">
+    <div className="card-dark w-full p-4 md:p-5">
       <div className="mb-2 flex items-center justify-between">
         <h5 className="text-base font-semibold text-white">Budgets</h5>
         <Link

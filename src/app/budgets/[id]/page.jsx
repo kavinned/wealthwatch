@@ -27,7 +27,7 @@ export default async function Budget({ params }) {
   }, 0);
 
   return (
-    <div className="page-shell py-8">
+    <div className="page-shell py-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <Link

@@ -18,6 +18,17 @@ export default function BudgetList({ budget, session }) {
     router.refresh();
   }
 
+  const spent = budget.transactions.reduce(
+    (acc, transaction) =>
+      transaction.type === "income"
+        ? acc - transaction.amount
+        : acc + transaction.amount,
+    0,
+  );
+  const over = spent > budget.limit;
+  const percent =
+    budget.limit > 0 ? Math.min((spent / budget.limit) * 100, 100) : 0;
+
   return (
     <li>
       <div className="card-dark flex items-center gap-2 p-4">
@@ -25,13 +36,28 @@ export default function BudgetList({ budget, session }) {
           className="min-w-0 flex-1 cursor-pointer"
           onClick={() => router.push(`/budgets/${budget._id}`)}
         >
-          <p className="truncate rounded-control px-2 py-1 text-sm font-semibold text-zinc-100 transition-colors duration-150 hover:bg-white/5 hover:text-white">
-            {budget.name}
-          </p>
+          <div className="flex items-baseline justify-between gap-3 px-2">
+            <p className="truncate text-sm font-semibold text-zinc-100">
+              {budget.name}
+            </p>
+            <span className="tabular shrink-0 text-xs text-zinc-400">
+              {budget.transactions.length} txns
+            </span>
+          </div>
+          <div className="mt-2 flex items-center gap-3 px-2">
+            <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
+              <div
+                className={`h-full rounded-full ${
+                  over ? "bg-red-400" : "bg-emerald-400"
+                }`}
+                style={{ width: `${percent}%` }}
+              />
+            </div>
+            <span className="tabular shrink-0 text-xs text-zinc-400">
+              ${spent} / ${budget.limit}
+            </span>
+          </div>
         </div>
-        <span className="tabular shrink-0 text-sm text-zinc-400">
-          Limit: ${budget.limit}
-        </span>
         <Link
           href={`/budgets/${budget._id}/edit`}
           className="btn-icon"

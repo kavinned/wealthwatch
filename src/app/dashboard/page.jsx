@@ -9,7 +9,7 @@ export default async function Dashboard() {
   const session = await getServerSession(authOptions);
 
   return (
-    <div className="page-shell flex min-h-[calc(100dvh-4rem)] flex-col gap-8 py-8">
+    <div className="page-shell flex flex-col gap-6 py-6">
       <header className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-sm font-medium text-muted">Overview</p>
@@ -35,7 +35,7 @@ export default async function Dashboard() {
         </div>
       </header>
 
-      <div className="flex flex-col items-stretch gap-6 md:flex-row md:items-start md:justify-center">
+      <div className="grid gap-6 md:grid-cols-2">
         <BudgetCard session={session} />
         <StockCard session={session} />
       </div>

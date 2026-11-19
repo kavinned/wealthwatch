@@ -22,7 +22,7 @@ export default async function Budgets() {
   const budgets = await fetchBudgets(session?.user?.email);
 
   return (
-    <div className="page-shell py-8">
+    <div className="page-shell py-6">
       <div className="flex items-center justify-between gap-4">
         <div>
           <p className="text-sm font-medium text-muted">Overview</p>
@@ -33,7 +33,7 @@ export default async function Budgets() {
         </Link>
       </div>
 
-      <ul className="mt-6 space-y-3">
+      <ul className="mt-5 space-y-3">
         {budgets.length === 0 && (
           <li className="card-light p-6 text-sm text-muted">
             No budgets yet.{" "}
