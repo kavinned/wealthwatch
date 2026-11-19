@@ -2,6 +2,7 @@ import { Quicksand } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "./providers";
 import NavBar from "./(components)/NavBar";
+import DemoBanner from "./(components)/DemoBanner";
 import Head from "next/head";
 
 const quicksand = Quicksand({ subsets: ["latin"] });
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
       <body className={quicksand.className}>
         <AuthProvider>
           <NavBar />
+          <DemoBanner />
           {children}
         </AuthProvider>
       </body>

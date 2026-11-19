@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 export default function LoginForm() {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [demoBusy, setDemoBusy] = useState(false);
   const [toast, setToast] = useState(false);
   const { data: session } = useSession();
 
@@ -65,6 +66,28 @@ export default function LoginForm() {
     }
   };
 
+  const handleDemo = async () => {
+    setError("");
+    setDemoBusy(true);
+    try {
+      const res = await signIn("credentials", { demo: "1", redirect: false });
+      if (res?.ok) {
+        router.push("/dashboard");
+        return;
+      }
+      setError(
+        res?.error === "DemoUnavailable"
+          ? "Demo is at capacity, try later."
+          : "Could not start the demo",
+      );
+    } catch (error) {
+      console.log(error);
+      setError("Could not start the demo");
+    } finally {
+      setDemoBusy(false);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-1.5">
@@ -96,6 +119,14 @@ export default function LoginForm() {
       {error !== "" && <p className="field-error mx-auto">{error}</p>}
       <button type="submit" className="btn btn-primary w-full">
         Log In
+      </button>
+      <button
+        type="button"
+        onClick={handleDemo}
+        disabled={demoBusy}
+        className="btn btn-secondary w-full"
+      >
+        {demoBusy ? "Starting demo…" : "Try the demo"}
       </button>
       {toast && (
         <p
