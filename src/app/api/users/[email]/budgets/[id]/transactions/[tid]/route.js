@@ -69,7 +69,7 @@ export async function PUT(request, { params }) {
     transaction.description = description;
     transaction.type = type;
     await user.save();
-    return NextResponse.json(budget, transaction, { status: 200 });
+    return NextResponse.json(transaction, { status: 200 });
   } catch (error) {
     console.log(error);
   }
