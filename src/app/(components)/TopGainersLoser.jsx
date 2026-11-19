@@ -7,7 +7,9 @@ const yahooFinance = new YahooFinance({ suppressNotices: ["yahooSurvey"] });
 const toStock = (quote) => ({
 	ticker: quote.symbol,
 	price: quote.regularMarketPrice.toFixed(2),
-	change_percentage: `${quote.regularMarketChangePercent.toFixed(2)}%`,
+	change_percentage: `${
+		quote.regularMarketChangePercent > 0 ? "+" : ""
+	}${quote.regularMarketChangePercent.toFixed(2)}%`,
 });
 
 export default async function TopGainersLoser() {
@@ -22,19 +24,15 @@ export default async function TopGainersLoser() {
 			.map(toStock);
 
 	return (
-		<div className="grid grid-cols-1 place-items-center">
-			<h2 className="mb-5 ml-5 mt-5 text-2xl font-bold text-slate-700">
-				Top Gainers
-			</h2>
-			<ul className="grid w-full grid-cols-5 place-items-center gap-2 px-2 md:px-0">
+		<div>
+			<h2 className="mt-6 text-lg font-semibold text-ink">Top Gainers</h2>
+			<ul className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-5">
 				{movers(gainers.quotes).map((stock) => (
 					<GainersLosersList key={stock.ticker} stock={stock} text="emerald" />
 				))}
 			</ul>
-			<h2 className="mb-5 ml-5 mt-5 text-2xl font-bold text-slate-700">
-				Top Losers
-			</h2>
-			<ul className="grid w-full grid-cols-5 place-items-center gap-2 px-2 md:px-0">
+			<h2 className="mt-6 text-lg font-semibold text-ink">Top Losers</h2>
+			<ul className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-5">
 				{movers(losers.quotes).map((stock) => (
 					<GainersLosersList key={stock.ticker} stock={stock} text="red" />
 				))}

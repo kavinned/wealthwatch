@@ -18,16 +18,17 @@ export default function Chart({ values }) {
         backgroundColor: (context) => {
           const ctx = context.chart.ctx;
           const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-          gradient.addColorStop(0, "rgba(0,0,0,0.5");
-          gradient.addColorStop(1, "rgba(0,0,128,0");
+          gradient.addColorStop(0, "rgba(16,185,129,0.18)");
+          gradient.addColorStop(1, "rgba(16,185,129,0)");
           return gradient;
         },
-        borderColor: "rgba(0,0,0,0.2)",
-        pointBackgroundColor: "rgba(0,0,0,0.2)",
+        borderColor: "#10b981",
+        borderWidth: 2,
+        pointBackgroundColor: "#10b981",
         pointBorderColor: "transparent",
-        pointHoverBackgroundColor: "rgba(0,0,0,0.7)",
+        pointHoverBackgroundColor: "#059669",
         pointHoverBorderColor: "transparent",
-        pointRadius: 4,
+        pointRadius: 2,
       },
     ],
   };
@@ -37,16 +38,22 @@ export default function Chart({ values }) {
       x: {
         grid: {
           display: true,
-          color: "rgba(128,128,128,0.1)",
+          color: "rgba(24,24,27,0.06)",
+        },
+        ticks: {
+          font: { size: 11 },
+          color: "#71717a",
         },
       },
       y: {
         grid: {
           display: true,
-          color: "rgba(128,128,128,0.1)",
+          color: "rgba(24,24,27,0.06)",
         },
         ticks: {
-          callback: function (value, index, values) {
+          font: { size: 11 },
+          color: "#71717a",
+          callback: function (value) {
             return "$" + value.toFixed(2);
           },
         },
@@ -59,27 +66,14 @@ export default function Chart({ values }) {
     },
     layout: {
       padding: {
-        top: 20,
-        bottom: 20,
+        top: 12,
+        bottom: 4,
       },
     },
     responsive: true,
-    maintainAspectRatio: true,
-    backgroundColor: "rgba(245, 245, 245, 0.5)",
-    borderRadius: 10,
-    title: {
-      display: true,
-      text: "Stock Price Over Time",
-      font: {
-        size: 18,
-      },
-      padding: {
-        top: 30,
-        bottom: 30,
-      },
-    },
+    maintainAspectRatio: false,
     animation: {
-      duration: 1000,
+      duration: 600,
     },
   };
 

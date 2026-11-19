@@ -23,14 +23,8 @@ export default function AddStockButton({ symbol }) {
   }
 
   return (
-    <span className="flex h-3 w-full flex-row justify-end">
-      <button
-        type="button"
-        className="nav-btn mr-5 mt-10 bg-zinc-900 text-xs"
-        onClick={handleClick}
-      >
-        Add to tracked stocks
-      </button>
-    </span>
+    <button type="button" className="btn btn-primary" onClick={handleClick}>
+      Add to tracked stocks
+    </button>
   );
 }

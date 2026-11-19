@@ -5,81 +5,62 @@ import React from "react";
 
 export const revalidate = 3600;
 
+function Metric({ label, value }) {
+  return (
+    <div>
+      <p className="text-xs font-medium uppercase tracking-wide text-muted">
+        {label}
+      </p>
+      <p className="tabular mt-1 text-sm font-semibold text-ink">{value}</p>
+    </div>
+  );
+}
+
 export default async function StockDetails({ params }) {
   const { ticker } = await params;
   const stock = await fetchStockData(ticker);
 
   return (
-    <div className="flex h-[calc(100dvh-7dvh)] w-full flex-col overflow-auto">
-      <div className="flex h-fit w-full flex-col items-center justify-between">
+    <div className="page-shell py-8">
+      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <div className="min-w-0">
+          <p className="text-sm font-medium text-muted">{stock.exchange}</p>
+          <h1 className="mt-1 text-3xl font-semibold tracking-tight text-ink">
+            {stock.symbol}
+          </h1>
+          <p className="mt-1 truncate text-sm text-muted">{stock.name}</p>
+        </div>
         <AddStockButton symbol={stock.symbol} />
-        <h1 className="rounded-xl bg-zinc-800 px-3 py-2 text-2xl font-semibold text-zinc-300 shadow-xl drop-shadow-xl">
-          {stock.symbol}
-        </h1>
-        <p className="mt-3 text-sm font-semibold text-zinc-800">
-          {stock.name}
-        </p>
-        <p className="mt-3 text-xl font-semibold text-zinc-800">
-          Latest Price: ${stock.price}
-          <span
-            className="m-0 flex items-center justify-center p-0 opacity-50"
-            style={{ fontSize: "0.6rem" }}
-          >
-            last updated: {stock.updated}
-          </span>
-        </p>
       </div>
-      <div className="flex w-full flex-col items-center justify-center">
-        <div className="mb-5 flex h-fit w-[90%] flex-col items-center justify-center gap-5 xl:mb-0 xl:grid xl:grid-cols-9 xl:place-content-center xl:place-items-center">
-          <div className="order-2 col-span-2 flex h-fit w-full flex-col gap-5 rounded-lg border-2 border-slate-400/50 bg-zinc-200 p-3 shadow-2xl drop-shadow-2xl">
-            <p className="stock-overview">
-              Analyst Target: <br />{" "}
-                ${stock.analystTarget}
-            </p>
-            <p className="stock-overview">
-              52 Week High: <br />{" "}
-              <span className="bubble bg-emerald-300">
-                ${stock.high52}
-              </span>
-            </p>
-            <p className="stock-overview">
-              52 Week Low: <br />{" "}
-              <span className="bubble bg-red-300">
-                ${stock.low52}
-              </span>
-            </p>
-            <p className="stock-overview">
-              50 Day Moving Average: <br />{" "}
-              <span className="bubble">
-                ${stock.ma50}
-              </span>
-            </p>
-          </div>
-          <div className="order-1 col-span-5 flex h-full w-full flex-col items-center justify-center gap-10 rounded-lg border-2 border-slate-400/50 bg-zinc-200 p-3 shadow-2xl drop-shadow-2xl">
-            <h2 className="text-xl font-semibold text-zinc-700">
-              Prices for the last 30 days
-            </h2>
+
+      <div className="mt-6 flex flex-wrap items-baseline gap-2">
+        <p className="tabular text-2xl font-semibold text-ink">${stock.price}</p>
+        <p className="text-xs text-muted">last updated {stock.updated}</p>
+      </div>
+
+      <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-9">
+        <div className="card-light order-2 flex flex-col gap-4 p-4 lg:order-none lg:col-span-2">
+          <Metric label="Analyst target" value={`$${stock.analystTarget}`} />
+          <Metric label="52 week high" value={`$${stock.high52}`} />
+          <Metric label="52 week low" value={`$${stock.low52}`} />
+          <Metric label="50 day average" value={`$${stock.ma50}`} />
+        </div>
+
+        <div className="card-light order-1 p-4 lg:order-none lg:col-span-5">
+          <h2 className="text-sm font-semibold text-ink">
+            Price, last 30 days
+          </h2>
+          <div className="mt-4 h-64 w-full md:h-80">
             <Chart values={stock.values} />
           </div>
-          <div className="order-3 col-span-2 flex h-fit w-full flex-col gap-5 rounded-lg border-2 border-slate-400/50 bg-zinc-200 p-3 shadow-2xl drop-shadow-2xl">
-            <p className="stock-overview">
-              Asset Type: <br />{" "}
-              <span className="bubble">{stock.assetType}</span>
-            </p>
-            <p className="stock-overview">
-              Exchange: <br />{" "}
-              <span className="bubble">{stock.exchange}</span>
-            </p>
-            <p className="stock-overview">
-              Country: <br />{" "}
-              <span className="bubble">{stock.country}</span>
-            </p>
-            <p className="stock-overview">
-              Sector: <br />{" "}
-              <span className="bubble">{stock.sector}</span> <br />
-              <span className="bubble">{stock.industry}</span>
-            </p>
-          </div>
+        </div>
+
+        <div className="card-light order-3 flex flex-col gap-4 p-4 lg:order-none lg:col-span-2">
+          <Metric label="Asset type" value={stock.assetType} />
+          <Metric label="Exchange" value={stock.exchange} />
+          <Metric label="Country" value={stock.country} />
+          <Metric label="Sector" value={stock.sector} />
+          <Metric label="Industry" value={stock.industry} />
         </div>
       </div>
     </div>

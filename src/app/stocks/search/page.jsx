@@ -42,17 +42,14 @@ export default function Search() {
 	}, [stocks]);
 
 	return (
-		<div className="container mx-auto mt-10 flex h-full w-full flex-col items-center justify-center">
-			<label
-				className="text-xl font-bold text-slate-700"
-				htmlFor="search"
-			>
+		<div>
+			<label className="label" htmlFor="search">
 				Search for a stock
 			</label>
-			<span className="flex w-full flex-row items-center justify-center">
+			<div className="mt-2 flex w-full max-w-2xl flex-col gap-2 sm:flex-row">
 				<input
 					id="search"
-					className="m-3 w-1/3 min-w-[250px] max-w-[70vw] scroll-mt-14 rounded-lg border-2 border-zinc-800 p-3 ring-2 ring-zinc-400"
+					className="field scroll-mt-20"
 					type="search"
 					onChange={(e) => {
 						setInput(e.target.value);
@@ -65,7 +62,7 @@ export default function Search() {
 					}}
 				/>
 				<button
-					className="nav-btn m-3 rounded-xl bg-zinc-800 p-3 hover:bg-zinc-600"
+					className="btn btn-primary shrink-0"
 					onClick={() => {
 						setSearchTerm(null);
 						setSearchTerm(input.toUpperCase());
@@ -73,19 +70,23 @@ export default function Search() {
 				>
 					Search
 				</button>
-			</span>
+			</div>
 
-			<div className="mb-10 mt-10 flex w-full flex-col flex-wrap items-center justify-center gap-5 px-3 pt-5 text-zinc-200 transition-all duration-200 ease-in-out md:mx-0 md:flex-row md:px-0">
+			<div className="mt-6 grid w-full grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
 				{stocks?.map((stock) => (
 					<Link
 						data-stock={`stock-item-${stock.ticker}`}
 						ref={resultsRef}
 						href={`/stocks/${stock.ticker}`}
-						className="flex w-full flex-col justify-center divide-y divide-zinc-500 rounded-lg border-2 border-zinc-500 bg-zinc-800 p-3 shadow-xl drop-shadow-xl transition-all duration-300 ease-in-out hover:scale-105 hover:bg-zinc-700 hover:font-semibold md:w-1/3"
+						className="card-dark p-4 transition-colors duration-150 hover:ring-emerald-400/40"
 						key={stock.ticker}
 					>
-						<p>{stock.ticker}</p>
-						<p>{stock.name}</p>
+						<p className="tabular text-sm font-semibold text-zinc-100">
+							{stock.ticker}
+						</p>
+						<p className="mt-1 truncate text-xs text-zinc-400">
+							{stock.name}
+						</p>
 						{loading && <LoadingStocks />}
 					</Link>
 				))}
