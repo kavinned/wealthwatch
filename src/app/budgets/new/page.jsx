@@ -36,7 +36,7 @@ export default function AddBudgetPage() {
   return (
     <div className="flex h-[calc(100dvh-7dvh)] w-full flex-col items-center justify-center">
       <form className="form" onSubmit={handleSubmit}>
-        <h1 className="text-center font-bold text-slate-200">
+        <h1 className="text-center text-lg font-semibold text-ink">
           Add a new budget
         </h1>
         <label htmlFor="name">Name</label>
