@@ -3,9 +3,10 @@ import BudgetInfo from "./BudgetInfo";
 import { serverFetch } from "../../../libs/serverFetch";
 
 export default async function BudgetCard({ session }) {
-  const budgets = await serverFetch(
+  const res = await serverFetch(
     `/api/users/${session?.user?.email}/budgets`,
-  ).then((res) => res?.json());
+  );
+  const budgets = res.ok ? await res.json() : [];
 
   return (
     <div className="card-dark w-full p-4 md:p-5">

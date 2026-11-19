@@ -12,7 +12,8 @@ export default async function Admin() {
     return <Unauthorized />;
   }
 
-  const users = await serverFetch("/api/users").then((res) => res.json());
+  const res = await serverFetch("/api/users");
+  const users = res.ok ? await res.json() : [];
 
   return (
     <div className="page-shell py-8">

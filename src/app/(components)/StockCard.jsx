@@ -4,9 +4,8 @@ import { fetchStockQuotes } from "../../../libs/stockData";
 import { serverFetch } from "../../../libs/serverFetch";
 
 export default async function StockCard({ session }) {
-  const stocks = await serverFetch(
-    `/api/users/${session?.user?.email}/stocks`,
-  ).then((res) => res?.json());
+  const res = await serverFetch(`/api/users/${session?.user?.email}/stocks`);
+  const stocks = res.ok ? await res.json() : [];
 
   const quotes = await fetchStockQuotes(stocks?.map((stock) => stock.symbol));
 

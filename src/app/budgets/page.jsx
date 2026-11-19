@@ -7,10 +7,10 @@ import { serverFetch } from "../../../libs/serverFetch";
 
 async function fetchBudgets(email) {
   const res = await serverFetch(`/api/users/${email}/budgets`);
-  if (!res) {
+  if (!res.ok) {
     return [];
   }
-  return res?.json();
+  return res.json();
 }
 
 export default async function Budgets() {

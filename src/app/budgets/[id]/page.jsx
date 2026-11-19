@@ -4,16 +4,18 @@ import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { serverFetch } from "../../../../libs/serverFetch";
 import TransactionList from "@/app/(components)/TransactionList";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 async function fetchBudget(email, id) {
   const res = await serverFetch(`/api/users/${email}/budgets/${id}`);
-  return res?.json();
+  return res.ok ? res.json() : null;
 }
 
 export default async function Budget({ params }) {
   const { id } = await params;
   const session = await getServerSession(authOptions);
   const budget = await fetchBudget(session?.user?.email, id);
+  if (!budget) notFound();
   const spentAmt = budget.transactions.reduce((acc, curr) => {
     if (curr.type === "income") {
       return acc - curr.amount;
