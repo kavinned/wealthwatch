@@ -231,9 +231,20 @@ export default function Home() {
 
       <section className="flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-md">
-          <div className="mb-6 flex items-center gap-2 text-sm font-semibold text-ink lg:hidden">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" />
-            WealthWatch
+          <div className="mb-6 lg:hidden">
+            <div className="flex items-center gap-2 text-sm font-semibold text-ink">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+              WealthWatch
+            </div>
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight text-ink">
+              Know where your money goes.
+            </h1>
+            <p className="mt-2 text-sm text-muted">
+              Budgets, transactions, and market tracking in one calm dashboard.
+            </p>
+            <p className="mt-3 text-xs text-muted">
+              For informational purposes only — not financial advice.
+            </p>
           </div>
           <div className="card-light p-6 md:p-8">
             <h2 className="text-xl font-semibold tracking-tight text-ink">

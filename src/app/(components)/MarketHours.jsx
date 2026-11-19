@@ -150,7 +150,7 @@ export default function MarketHours() {
   return (
     <div className="card-light p-4 md:p-5">
       <h5 className="text-base font-semibold text-ink">Markets</h5>
-      <ul role="list" className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+      <ul role="list" className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
         {MARKETS.map((market) => {
           const session = now == null ? null : marketSession(now, market);
           return (
