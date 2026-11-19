@@ -1,5 +1,6 @@
 import React from "react";
 import { getServerSession } from "next-auth";
+import { authOptions } from "../../api/auth/[...nextauth]/route";
 import TransactionList from "@/app/(components)/TransactionList";
 import Link from "next/link";
 
@@ -15,7 +16,7 @@ async function fetchBudget(email, id) {
 
 export default async function Budget({ params }) {
   const { id } = await params;
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   const budget = await fetchBudget(session?.user?.email, id);
   const spentAmt = budget.transactions.reduce((acc, curr) => {
     if (curr.type === "income") {

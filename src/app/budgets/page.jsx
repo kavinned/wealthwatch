@@ -2,6 +2,7 @@ import React from "react";
 import BudgetList from "../(components)/BudgetList";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
 async function fetchBudgets(email) {
   const res = await fetch(
@@ -17,7 +18,7 @@ async function fetchBudgets(email) {
 }
 
 export default async function Budgets() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   const budgets = await fetchBudgets(session?.user?.email);
 
   return (
