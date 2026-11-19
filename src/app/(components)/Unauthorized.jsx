@@ -5,32 +5,37 @@ import { useSession } from "next-auth/react";
 
 export default function Unauthorized() {
   const { data: session } = useSession();
-  if (session?.user?.role === "admin") {
-    router.push("/admin");
-  }
-  const [count, setCount] = useState(3);
   const router = useRouter();
+  const [count, setCount] = useState(3);
+
   useEffect(() => {
-    if (session?.user?.role === "user") {
-      if (count > 0) {
-        setInterval(() => {
-          setCount(count - 1);
-        }, 1000);
-      }
-      setTimeout(() => {
-        router.push("/dashboard");
-      }, 3000);
+    if (session?.user?.role === "admin") {
+      router.push("/admin");
+      return;
     }
-  }, [router, count, session?.user?.role]);
+
+    const interval = setInterval(
+      () => setCount((value) => Math.max(value - 1, 0)),
+      1000,
+    );
+    const timeout = setTimeout(() => router.push("/dashboard"), 3000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [router, session?.user?.role]);
 
   return (
-    <div className="flex h-[calc(100dvh-7dvh)] w-full flex-col items-center justify-center">
-      <h1 className="w-[80vw] rounded-lg border-4 border-red-600 bg-red-950 p-5 text-3xl font-semibold text-zinc-200">
-        You are not authorized to view this page
-      </h1>
-      <p className="p-3 text-lg font-semibold text-zinc-700">
-        Redirecting in {count}
-      </p>
+    <div className="page-shell flex min-h-[calc(100dvh-4rem)] items-center justify-center">
+      <div className="card-light max-w-lg p-6 text-center">
+        <h1 className="text-xl font-semibold text-red-700">
+          You are not authorized to view this page
+        </h1>
+        <p className="mt-2 text-sm text-muted">
+          Returning to dashboard in {count}s
+        </p>
+      </div>
     </div>
   );
 }

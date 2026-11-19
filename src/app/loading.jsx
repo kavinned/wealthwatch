@@ -2,12 +2,8 @@ import React from "react";
 
 export default function Loading() {
   return (
-    <div className="absolute bottom-1/2 right-1/2 translate-x-1/2 translate-y-1/2 scale-50 transform">
-      <div className="animate-spin rounded-full bg-gradient-to-tr from-green-500 via-purple-500 to-blue-500 p-4">
-        <div className="rounded-full bg-white">
-          <div className="h-24 w-24 rounded-full"></div>
-        </div>
-      </div>
+    <div className="flex min-h-[50vh] w-full items-center justify-center">
+      <div className="h-10 w-10 animate-spin rounded-full border-2 border-zinc-200 border-t-emerald-500" />
     </div>
   );
 }
