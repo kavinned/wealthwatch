@@ -1,16 +1,13 @@
 import { connectDB } from "../../../../../libs/mongodb";
 import { User } from "@/app/(models)/user";
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { authorizeRequest } from "../../../../../libs/apiAuth";
 
 export async function DELETE(request, { params }) {
   const { email } = await params;
-  const session = await getServerSession(authOptions);
-  console.log(session);
-  if (session?.user?.role !== "admin") {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await authorizeRequest({ adminOnly: true });
+  if (auth.response) return auth.response;
+
   try {
     await connectDB();
     const user = await User.deleteOne({ email });
@@ -22,11 +19,9 @@ export async function DELETE(request, { params }) {
 
 export async function PUT(request, { params }) {
   const { email: userEmail } = await params;
-  const session = await getServerSession(authOptions);
-  console.log(session);
-  if (session?.user?.role !== "admin") {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
+  const auth = await authorizeRequest({ adminOnly: true });
+  if (auth.response) return auth.response;
+
   const { name, email, role } = await request.json();
   if (!name || !email || !role) {
     throw new Error("Please fill in all fields");
@@ -46,6 +41,9 @@ export async function PUT(request, { params }) {
 
 export async function GET(request, { params }) {
   const { email } = await params;
+  const auth = await authorizeRequest({ selfEmail: email, allowAdmin: true });
+  if (auth.response) return auth.response;
+
   try {
     await connectDB();
     const user = await User.findOne({ email });

@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "../../../../../../libs/mongodb";
 import { User } from "@/app/(models)/user";
+import { authorizeRequest } from "../../../../../../libs/apiAuth";
 
 export async function GET(req, { params }) {
   const { email } = await params;
+  const auth = await authorizeRequest({ selfEmail: email });
+  if (auth.response) return auth.response;
+
   try {
     await connectDB();
     const user = await User?.findOne({ email });
@@ -16,6 +20,9 @@ export async function GET(req, { params }) {
 
 export async function POST(request, { params }) {
   const { email } = await params;
+  const auth = await authorizeRequest({ selfEmail: email });
+  if (auth.response) return auth.response;
+
   try {
     const { name, limit } = await request.json();
     if (!name || !limit) {

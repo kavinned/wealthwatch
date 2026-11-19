@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "../../../../../../../libs/mongodb";
 import { User } from "@/app/(models)/user";
+import { authorizeRequest } from "../../../../../../../libs/apiAuth";
 
 export async function GET(request, { params }) {
   const { email, id } = await params;
+  const auth = await authorizeRequest({ selfEmail: email });
+  if (auth.response) return auth.response;
+
   try {
     await connectDB();
     const user = await User?.findOne({ email: email });
@@ -18,6 +22,9 @@ export async function GET(request, { params }) {
 
 export async function DELETE(request, { params }) {
   const { email, id } = await params;
+  const auth = await authorizeRequest({ selfEmail: email });
+  if (auth.response) return auth.response;
+
   try {
     await connectDB();
     const user = await User.findOne({ email: email });
@@ -34,6 +41,9 @@ export async function DELETE(request, { params }) {
 
 export async function PUT(request, { params }) {
   const { email, id } = await params;
+  const auth = await authorizeRequest({ selfEmail: email });
+  if (auth.response) return auth.response;
+
   const { name, limit } = await request.json();
   if (!name || !limit) {
     throw new Error("Please fill in all fields");
