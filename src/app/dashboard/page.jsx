@@ -30,7 +30,7 @@ export default async function Dashboard() {
         </span>
         <h3
           style={{ textShadow: "0px 2px 2px rgba(0, 0, 0, 0.4)" }}
-          className="dash-name order-1 ml-auto mr-2 mt-2 flex font-bold text-slate-700 md:order-2 md:ml-0 md:mr-5 md:mt-5 md:flex-col md:items-center md:justify-around md:rounded-lg md:border md:border-zinc-500 md:border-opacity-30 md:bg-zinc-200 md:p-4 md:text-lg md:shadow-sm md:drop-shadow-lg"
+          className="dash-name order-1 ml-auto mr-2 mt-2 flex font-bold text-slate-700 md:order-2 md:ml-0 md:mr-5 md:mt-5 md:flex-col md:items-center md:justify-around md:rounded-lg md:border md:border-zinc-500/30 md:bg-zinc-200 md:p-4 md:text-lg md:shadow-sm md:drop-shadow-lg"
         >
           {session?.user?.name}
           <FaPiggyBank className="hidden md:block" />

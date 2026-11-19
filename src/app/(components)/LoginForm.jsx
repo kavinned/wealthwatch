@@ -69,7 +69,7 @@ export default function LoginForm() {
       <p className="m-0 p-0 text-center">
         No account?{" "}
         <Link
-          className="bubble border border-slate-800 bg-slate-700 font-bold text-slate-200 transition-all duration-75 ease-linear hover:border-opacity-30 hover:bg-slate-500"
+          className="bubble border border-slate-800 bg-slate-700 font-bold text-slate-200 transition-all duration-75 ease-linear hover:border-slate-800/30 hover:bg-slate-500"
           href="/signup"
         >
           Sign Up
