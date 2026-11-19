@@ -3,14 +3,10 @@ import BudgetList from "../(components)/BudgetList";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import { serverFetch } from "../../../libs/serverFetch";
 
 async function fetchBudgets(email) {
-  const res = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/users/${email}/budgets`,
-    {
-      cache: "no-store",
-    },
-  );
+  const res = await serverFetch(`/api/users/${email}/budgets`);
   if (!res) {
     return [];
   }

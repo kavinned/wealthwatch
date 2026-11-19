@@ -1,10 +1,10 @@
 import Link from "next/link";
 import BudgetInfo from "./BudgetInfo";
+import { serverFetch } from "../../../libs/serverFetch";
 
 export default async function BudgetCard({ session }) {
-  const budgets = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/users/${session?.user?.email}/budgets`,
-    { cache: "no-store" },
+  const budgets = await serverFetch(
+    `/api/users/${session?.user?.email}/budgets`,
   ).then((res) => res?.json());
 
   return (

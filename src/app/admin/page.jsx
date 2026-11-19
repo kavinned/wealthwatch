@@ -3,6 +3,7 @@ import Unauthorized from "../(components)/Unauthorized";
 import UsersList from "../(components)/UsersList";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import { serverFetch } from "../../../libs/serverFetch";
 
 export default async function Admin() {
   const session = await getServerSession(authOptions);
@@ -11,10 +12,7 @@ export default async function Admin() {
     return <Unauthorized />;
   }
 
-  const users = await fetch(`${process.env.NEXTAUTH_URL}/api/users`, {
-    cache: "no-store",
-    revalidate: 0,
-  }).then((res) => res.json());
+  const users = await serverFetch("/api/users").then((res) => res.json());
 
   return (
     <div className="page-shell py-8">

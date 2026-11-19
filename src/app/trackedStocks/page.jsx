@@ -3,14 +3,12 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 import TrackedStocksList from "../(components)/TrackedStocksList";
 import { getServerSession } from "next-auth";
 import { fetchStockQuotes } from "../../../libs/stockData";
+import { serverFetch } from "../../../libs/serverFetch";
 
 export default async function TrackedStocksPage() {
   const session = await getServerSession(authOptions);
-  const stocks = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/users/${session?.user?.email}/stocks`,
-    {
-      cache: "no-store",
-    },
+  const stocks = await serverFetch(
+    `/api/users/${session?.user?.email}/stocks`,
   ).then((res) => res.json());
   const quotes = await fetchStockQuotes(stocks.map((stock) => stock.symbol));
 
