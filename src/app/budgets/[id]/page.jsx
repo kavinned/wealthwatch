@@ -12,6 +12,7 @@ async function fetchBudget(email, id) {
   );
   return res?.json();
 }
+
 export default async function Budget({ params }) {
   const { id } = await params;
   const session = await getServerSession();
@@ -25,32 +26,54 @@ export default async function Budget({ params }) {
   }, 0);
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <span className="order-2 flex h-3 w-full flex-row justify-center md:order-1 md:justify-end">
+    <div className="page-shell py-8">
+      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div>
+          <Link
+            href="/budgets"
+            className="text-sm font-medium text-muted hover:text-ink"
+          >
+            ← Budgets
+          </Link>
+          <h1 className="page-title mt-2">Budget for {budget.name}</h1>
+        </div>
         <Link
           href={`/budgets/${id}/transactions/new`}
-          className="nav-btn mt-10 bg-zinc-900 text-xs md:mr-5"
+          className="btn btn-primary"
         >
-          Add a new transaction
+          Add transaction
         </Link>
-      </span>
-      <span className="order-1 w-fit flex-row items-center justify-between gap-5 md:order-2 md:flex">
-        <h1 className="py-4 text-2xl font-bold text-zinc-700 md:py-0">
-          Budget for {budget.name}
-        </h1>
-        <p className="rounded-xl bg-zinc-800 p-3 text-lg font-medium text-white shadow-md shadow-zinc-600 drop-shadow-2xl">
-          Total Spent:{" "}
+      </div>
+
+      <div className="card-light mt-6 flex items-center justify-between gap-4 p-5">
+        <span className="text-sm font-medium text-muted">Total spent</span>
+        <p className="tabular text-2xl font-semibold">
           <span
-            className={`${
-              spentAmt > budget.limit ? "text-red-500" : "text-emerald-500"
-            }`}
+            className={
+              spentAmt > budget.limit ? "text-red-600" : "text-emerald-600"
+            }
           >
             ${spentAmt}
           </span>
-          / ${budget.limit}
+          <span className="text-base font-normal text-muted">
+            {" "}
+            / ${budget.limit}
+          </span>
         </p>
-      </span>
-      <ul className="order-3 mt-2 w-full space-y-4 divide-y divide-gray-500 py-5 md:order-3 md:mt-0 md:w-[50rem] md:max-w-[90dvw] md:p-5">
+      </div>
+
+      <ul className="mt-4 space-y-3">
+        {budget.transactions.length === 0 && (
+          <li className="card-light p-6 text-sm text-muted">
+            No transactions yet.{" "}
+            <Link
+              href={`/budgets/${id}/transactions/new`}
+              className="font-semibold text-emerald-700 hover:text-emerald-600"
+            >
+              Add one
+            </Link>
+          </li>
+        )}
         {budget.transactions.map((transaction) => (
           <TransactionList
             key={transaction._id}

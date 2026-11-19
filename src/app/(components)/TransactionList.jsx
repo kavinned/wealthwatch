@@ -21,33 +21,40 @@ export default function TransactionList({ transaction, budget }) {
   }
 
   const transactionDate = new Date(transaction.date).toLocaleDateString();
+  const isExpense = transaction.type === "expense";
 
   return (
-    <li className="border-0 p-3">
-      <div className="flex items-center space-x-4 rounded-lg border-0 bg-zinc-800 p-3 shadow-md shadow-zinc-500 drop-shadow-md rtl:space-x-reverse">
+    <li>
+      <div className="card-dark flex items-center gap-3 p-4">
         <div className="min-w-0 flex-1">
-          <p className="text-xs font-light text-gray-200">{transactionDate}</p>
-          <p className="text-sm font-semibold text-gray-200">
+          <p className="text-xs text-zinc-500">{transactionDate}</p>
+          <p className="truncate text-sm font-semibold text-zinc-100">
             {transaction.description}
           </p>
-          <p className="bubble mt-2 w-fit text-xs font-semibold text-zinc-800">
-            {transaction.category}
-          </p>
+          <p className="pill mt-2">{transaction.category}</p>
         </div>
         <div
-          className={`inline-flex items-center text-base font-medium text-gray-400 ${
-            transaction.type === "expense" ? "text-red-400" : "text-green-400"
+          className={`tabular shrink-0 text-sm font-semibold ${
+            isExpense ? "text-red-400" : "text-emerald-400"
           }`}
         >
-          ${transaction.amount}
+          {isExpense ? "−" : "+"}${transaction.amount}
         </div>
         <Link
           href={`/budgets/${budget?._id}/transactions/${transaction._id}/edit`}
-          className="text-emerald-400"
+          className="btn-icon"
+          aria-label={`Edit ${transaction.description}`}
         >
           <FaPencilAlt className="edit" />
         </Link>
-        <FaTrashAlt className="trash" onClick={handleDelete} />
+        <button
+          type="button"
+          className="btn-icon hover:bg-red-500/10 hover:text-red-400"
+          onClick={handleDelete}
+          aria-label={`Delete ${transaction.description}`}
+        >
+          <FaTrashAlt className="trash" />
+        </button>
       </div>
     </li>
   );
