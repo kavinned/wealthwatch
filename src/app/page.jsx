@@ -28,17 +28,6 @@ export default function Home() {
                 <stop offset="1" stopColor="#10b981" stopOpacity="0" />
               </radialGradient>
               <linearGradient
-                id="heroFill"
-                x1="44"
-                y1="120"
-                x2="44"
-                y2="210"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#10b981" stopOpacity="0.35" />
-                <stop offset="1" stopColor="#10b981" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient
                 id="heroCard"
                 x1="24"
                 y1="56"
@@ -105,49 +94,57 @@ export default function Home() {
               fontWeight="600"
               letterSpacing="0.08em"
             >
-              NET WORTH
+              BUDGETS
             </text>
-            <text x="44" y="118" fill="white" fontSize="26" fontWeight="600">
-              $24,860
+
+            <text x="44" y="112" fill="#e4e4e7" fontSize="11">
+              Groceries
             </text>
-            <rect
-              x="196"
-              y="96"
-              width="68"
-              height="24"
-              rx="12"
-              fill="#10b981"
-              fillOpacity="0.15"
-            />
             <text
-              x="230"
+              x="264"
               y="112"
-              fill="#34d399"
-              fontSize="11"
-              fontWeight="600"
-              textAnchor="middle"
+              fill="#a1a1aa"
+              fontSize="10"
+              textAnchor="end"
             >
-              +12.4%
+              $420 / $600
             </text>
-            <path
-              d="M44 196 L80 180 L112 188 L148 158 L184 168 L220 138 L264 146 L264 208 L44 208 Z"
-              fill="url(#heroFill)"
-            />
-            <path
-              d="M44 196 L80 180 L112 188 L148 158 L184 168 L220 138 L264 146"
-              stroke="#34d399"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <circle
-              cx="264"
-              cy="146"
-              r="4"
-              fill="#34d399"
-              stroke="#18181b"
-              strokeWidth="2"
-            />
+            <rect x="44" y="120" width="220" height="5" rx="2.5" fill="#27272a" />
+            <rect x="44" y="120" width="154" height="5" rx="2.5" fill="#34d399" />
+
+            <text x="44" y="146" fill="#e4e4e7" fontSize="11">
+              Entertainment
+            </text>
+            <text
+              x="264"
+              y="146"
+              fill="#a1a1aa"
+              fontSize="10"
+              textAnchor="end"
+            >
+              $130 / $250
+            </text>
+            <rect x="44" y="154" width="220" height="5" rx="2.5" fill="#27272a" />
+            <rect x="44" y="154" width="114" height="5" rx="2.5" fill="#34d399" />
+
+            <text x="44" y="180" fill="#e4e4e7" fontSize="11">
+              Transport
+            </text>
+            <text
+              x="264"
+              y="180"
+              fill="#a1a1aa"
+              fontSize="10"
+              textAnchor="end"
+            >
+              $95 / $180
+            </text>
+            <rect x="44" y="188" width="220" height="5" rx="2.5" fill="#27272a" />
+            <rect x="44" y="188" width="116" height="5" rx="2.5" fill="#34d399" />
+
+            <text x="44" y="212" fill="#71717a" fontSize="9">
+              spent / limit
+            </text>
 
             <g>
               <rect
@@ -190,16 +187,17 @@ export default function Home() {
                 fontWeight="600"
                 letterSpacing="0.08em"
               >
-                GROCERIES
+                COFFEE
               </text>
-              <text x="306" y="220" fill="white" fontSize="14" fontWeight="600">
-                $420
+              <text x="306" y="220" fill="#f87171" fontSize="14" fontWeight="600">
+                −$4.50
               </text>
-              <text x="344" y="220" fill="#71717a" fontSize="10">
-                of $600
+              <text x="356" y="220" fill="#71717a" fontSize="10">
+                Food
               </text>
-              <rect x="306" y="230" width="86" height="5" rx="2.5" fill="#27272a" />
-              <rect x="306" y="230" width="60" height="5" rx="2.5" fill="#34d399" />
+              <text x="306" y="234" fill="#71717a" fontSize="9">
+                today
+              </text>
             </g>
 
             <circle cx="28" cy="248" r="2" fill="#34d399" opacity="0.6" />
