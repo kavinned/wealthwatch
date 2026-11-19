@@ -116,8 +116,9 @@ export async function createDemoUser() {
 
 export async function resetDemo(email) {
   await connectDB();
-  await User.updateOne(
+  const result = await User.updateOne(
     { email, isDemo: true },
     { $set: { ...seedDemoData(), demoLastAccessAt: new Date() } },
   );
+  return result.matchedCount;
 }

@@ -33,7 +33,11 @@ export async function authorizeRequest({
 
   if (isDemo) {
     await connectDB();
-    await User.updateOne({ email }, { $set: { demoLastAccessAt: new Date() } });
+    const touched = await User.updateOne(
+      { email, isDemo: true },
+      { $set: { demoLastAccessAt: new Date() } },
+    );
+    if (touched.matchedCount === 0) return { response: unauthorized() };
   }
 
   return { session };

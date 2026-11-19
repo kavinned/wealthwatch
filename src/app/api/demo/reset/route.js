@@ -8,6 +8,9 @@ export async function POST() {
   if (!session?.user?.isDemo) {
     return NextResponse.json({ message: "Forbidden" }, { status: 403 });
   }
-  await resetDemo(session.user.email);
+  const matched = await resetDemo(session.user.email);
+  if (!matched) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
   return NextResponse.json({ message: "reset" }, { status: 200 });
 }
