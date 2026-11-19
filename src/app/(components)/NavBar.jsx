@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
 const links = [
@@ -39,7 +40,14 @@ export default function NavBar() {
           href="/dashboard"
           className="flex items-center gap-2 text-sm font-semibold text-white"
         >
-          <span className="h-2 w-2 rounded-full bg-emerald-400" />
+          <Image
+            src="/icon.svg"
+            alt=""
+            width={24}
+            height={24}
+            unoptimized
+            className="h-6 w-6"
+          />
           WealthWatch
         </Link>
 
