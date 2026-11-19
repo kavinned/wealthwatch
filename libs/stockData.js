@@ -16,14 +16,18 @@ export async function fetchStockQuotes(symbols = []) {
 	});
 
 	if (missing.length > 0) {
-		const quotes = await yahooFinance.quote(missing);
-		for (const quote of Array.isArray(quotes) ? quotes : [quotes]) {
-			quoteCache.set(quote.symbol, {
-				name: quote.longName || quote.shortName || quote.symbol,
-				price: quote.regularMarketPrice,
-				change: quote.regularMarketChangePercent,
-				expires: now + QUOTE_TTL,
-			});
+		try {
+			const quotes = await yahooFinance.quote(missing);
+			for (const quote of Array.isArray(quotes) ? quotes : [quotes]) {
+				quoteCache.set(quote.symbol, {
+					name: quote.longName || quote.shortName || quote.symbol,
+					price: quote.regularMarketPrice,
+					change: quote.regularMarketChangePercent,
+					expires: now + QUOTE_TTL,
+				});
+			}
+		} catch (error) {
+			console.log(error);
 		}
 	}
 
@@ -34,15 +38,21 @@ export async function fetchStockQuotes(symbols = []) {
 
 export async function fetchStockData(ticker) {
 	const symbol = ticker.toUpperCase();
-	const [summary, chart] = await Promise.all([
-		yahooFinance.quoteSummary(symbol, {
-			modules: ["price", "summaryProfile", "summaryDetail", "financialData"],
-		}),
-		yahooFinance.chart(symbol, {
-			period1: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000),
-			interval: "1d",
-		}),
-	]);
+	let summary, chart;
+	try {
+		[summary, chart] = await Promise.all([
+			yahooFinance.quoteSummary(symbol, {
+				modules: ["price", "summaryProfile", "summaryDetail", "financialData"],
+			}),
+			yahooFinance.chart(symbol, {
+				period1: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000),
+				interval: "1d",
+			}),
+		]);
+	} catch (error) {
+		console.log(error);
+		return null;
+	}
 
 	const price = summary.price ?? {};
 	const detail = summary.summaryDetail ?? {};

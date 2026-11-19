@@ -2,6 +2,7 @@ import Chart from "@/app/(components)/Chart";
 import AddStockButton from "@/app/(components)/AddStockButton";
 import { fetchStockData } from "../../../../libs/stockData";
 import React from "react";
+import { notFound } from "next/navigation";
 
 export const revalidate = 3600;
 
@@ -19,6 +20,7 @@ function Metric({ label, value }) {
 export default async function StockDetails({ params }) {
   const { ticker } = await params;
   const stock = await fetchStockData(ticker);
+  if (!stock) notFound();
 
   return (
     <div className="page-shell py-6">
