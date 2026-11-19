@@ -1,6 +1,7 @@
 import React from "react";
 import BudgetCard from "../(components)/BudgetCard";
 import StockCard from "../(components)/StockCard";
+import MarketHours from "../(components)/MarketHours";
 import { FaPiggyBank } from "react-icons/fa";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
@@ -38,6 +39,9 @@ export default async function Dashboard() {
       <div className="grid gap-6 md:grid-cols-2">
         <BudgetCard session={session} />
         <StockCard session={session} />
+        <div className="md:col-span-2">
+          <MarketHours />
+        </div>
       </div>
     </div>
   );
