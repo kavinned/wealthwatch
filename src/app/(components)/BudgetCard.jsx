@@ -28,7 +28,7 @@ export default async function BudgetCard({ session }) {
           {budgets?.slice(0, 3).map((budget) => (
             <BudgetInfo budget={budget} key={budget._id} />
           ))}
-          <li li className="text-right text-3xl text-slate-200">
+          <li className="text-right text-3xl text-slate-200">
             {budgets?.length > 3 ? `+ ${budgets?.length - 3}` : "..."}
           </li>
         </ul>
