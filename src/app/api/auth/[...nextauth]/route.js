@@ -2,6 +2,7 @@ import NextAuth from "next-auth/next";
 import Credentials from "next-auth/providers/credentials";
 import { connectDB } from "../../../../../libs/mongodb";
 import { User } from "@/app/(models)/user";
+import { createDemoUser } from "../../../../../libs/demo";
 import bcrypt from "bcrypt";
 
 export const authOptions = {
@@ -10,6 +11,7 @@ export const authOptions = {
       name: "credentials",
       credentials: {},
       async authorize(credentials) {
+        if (credentials?.demo) return createDemoUser();
         const { email, password } = credentials;
         try {
           await connectDB();
