@@ -34,12 +34,26 @@ export const authOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      user && (token.user = user);
+      if (user) {
+        token.user = {
+          id: user._id.toString(),
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          isDemo: !!user.isDemo,
+        };
+      }
       return token;
     },
     async session({ session, token }) {
-      session.user = token.user;
-      if (session.user.role) session.user.role = token.user.role;
+      const user = token.user ?? {};
+      session.user = {
+        id: user.id ?? user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        isDemo: !!user.isDemo,
+      };
       return session;
     },
   },

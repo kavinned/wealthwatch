@@ -26,8 +26,17 @@ const userSchema = new Schema(
         symbol: { type: String, required: true },
       },
     ],
+    isDemo: { type: Boolean, default: false, index: true },
+    demoLastAccessAt: { type: Date, index: { expires: 86400 } },
   },
   { timestamps: true },
 );
+
+userSchema.set("toJSON", {
+  transform: (doc, ret) => {
+    delete ret.password;
+    return ret;
+  },
+});
 
 export const User = mongoose.models.User || mongoose.model("User", userSchema);
