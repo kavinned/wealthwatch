@@ -3,6 +3,8 @@ import TopGainersLoser from "../(components)/TopGainersLoser";
 import Search from "./search/page";
 import Link from "next/link";
 
+export const revalidate = 3600;
+
 export default async function StocksPage() {
   return (
     <div className="stockpage h-full w-full overflow-hidden">

@@ -4,13 +4,12 @@ import { useSession } from "next-auth/react";
 import React from "react";
 import { useRouter } from "next/navigation";
 
-export default function AddStockButton({ stock }) {
+export default function AddStockButton({ symbol }) {
   const { data: session } = useSession();
   const router = useRouter();
 
   async function handleClick() {
     try {
-      const symbol = stock["Meta Data"]["2. Symbol"];
       const res = await fetch(`/api/users/${session?.user?.email}/stocks`, {
         method: "POST",
         body: JSON.stringify({ symbol }),

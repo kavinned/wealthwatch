@@ -2,14 +2,13 @@
 import { Chart as ChartJS } from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 
-export default function Chart({ stock }) {
-  const prices = Object.values(stock["Time Series (Daily)"])
-    .splice(0, 30)
-    .map((data) => data["4. close"])
-    .reverse();
+export default function Chart({ values }) {
+  const last30 = values.slice(0, 30).reverse();
+  const prices = last30.map((value) => value.close);
+  const labels = last30.map((value) => value.date);
 
   const data = {
-    labels: Object.keys(stock["Time Series (Daily)"]).splice(0, 30).reverse(),
+    labels,
     datasets: [
       {
         label: "Price",
