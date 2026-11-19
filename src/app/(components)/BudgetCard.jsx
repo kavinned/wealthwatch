@@ -8,31 +8,37 @@ export default async function BudgetCard({ session }) {
   ).then((res) => res?.json());
 
   return (
-    <div className="w-full max-w-md rounded-lg border-gray-700 bg-zinc-800 p-4 shadow-2xl drop-shadow-2xl sm:p-8">
-      <div className="mb-4 flex items-center justify-between">
-        <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-          Budgets
-        </h5>
+    <div className="card-dark w-full max-w-md p-5 md:p-6">
+      <div className="mb-2 flex items-center justify-between">
+        <h5 className="text-base font-semibold text-white">Budgets</h5>
         <Link
           href="/budgets"
-          className="text-sm font-medium text-blue-800 hover:underline dark:text-blue-300"
+          className="text-sm font-medium text-emerald-400 hover:text-emerald-300"
         >
           View all
         </Link>
       </div>
-      <div className="flow-root">
-        <ul
-          role="list"
-          className="divide-y divide-gray-200 dark:divide-gray-700"
-        >
-          {budgets?.slice(0, 3).map((budget) => (
-            <BudgetInfo budget={budget} key={budget._id} />
-          ))}
-          <li className="text-right text-3xl text-slate-200">
-            {budgets?.length > 3 ? `+ ${budgets?.length - 3}` : "..."}
+      <ul role="list" className="divide-y divide-white/10">
+        {budgets?.length === 0 && (
+          <li className="py-6 text-sm text-zinc-400">
+            No budgets yet.{" "}
+            <Link
+              href="/budgets/new"
+              className="font-semibold text-emerald-400 hover:text-emerald-300"
+            >
+              Create one
+            </Link>
           </li>
-        </ul>
-      </div>
+        )}
+        {budgets?.slice(0, 3).map((budget) => (
+          <BudgetInfo budget={budget} key={budget._id} />
+        ))}
+        {budgets?.length > 3 && (
+          <li className="tabular pt-3 text-right text-xs text-zinc-500">
+            + {budgets.length - 3} more
+          </li>
+        )}
+      </ul>
     </div>
   );
 }

@@ -4,19 +4,14 @@ import Link from "next/link";
 
 export default function StockInfo({ stock }) {
   return (
-    <li key={stock._id} className="py-3">
-      <Link href={`/stocks/${stock.symbol}`}>
-        <div className="flex items-center">
-          <div className="shrink-0"></div>
-          <div className="flex min-w-0 flex-1 justify-center">
-            <p className="cursor-pointer truncate text-lg font-semibold text-gray-900 dark:text-white">
-              {stock.symbol}
-            </p>
-          </div>
-          {/* <div className="inline-flex items-center text-base font-semibold text-gray-900">
-						${stock.price}
-					</div> */}
-        </div>
+    <li className="py-1">
+      <Link
+        href={`/stocks/${stock.symbol}`}
+        className="flex items-center justify-between gap-4 rounded-control px-2 py-2.5 transition-colors duration-150 hover:bg-white/5"
+      >
+        <span className="tabular truncate text-sm font-medium text-zinc-200">
+          {stock.symbol}
+        </span>
       </Link>
     </li>
   );

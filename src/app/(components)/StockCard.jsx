@@ -10,31 +10,37 @@ export default async function StockCard({ session }) {
   ).then((res) => res?.json());
 
   return (
-    <div className="w-full max-w-md rounded-lg border-gray-700 bg-zinc-800 p-4 shadow-2xl drop-shadow-2xl sm:p-8">
-      <div className="mb-4 flex items-center justify-between">
-        <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-          Stocks
-        </h5>
+    <div className="card-dark w-full max-w-md p-5 md:p-6">
+      <div className="mb-2 flex items-center justify-between">
+        <h5 className="text-base font-semibold text-white">Stocks</h5>
         <Link
           href="/trackedStocks"
-          className="text-sm font-medium text-blue-800 hover:underline dark:text-blue-300"
+          className="text-sm font-medium text-emerald-400 hover:text-emerald-300"
         >
           View all
         </Link>
       </div>
-      <div className="flow-root">
-        <ul
-          role="list"
-          className="divide-y divide-gray-200 dark:divide-gray-700"
-        >
-          {stocks?.slice(0, 3).map((stock) => (
-            <StockInfo stock={stock} key={stock._id} />
-          ))}
-          <li className="pt-3 text-right text-xs text-slate-400">
-            {stocks?.length > 3 ? `+ ${stocks?.length - 3} more` : ""}
+      <ul role="list" className="divide-y divide-white/10">
+        {stocks?.length === 0 && (
+          <li className="py-6 text-sm text-zinc-400">
+            No tracked stocks.{" "}
+            <Link
+              href="/stocks"
+              className="font-semibold text-emerald-400 hover:text-emerald-300"
+            >
+              Browse stocks
+            </Link>
           </li>
-        </ul>
-      </div>
+        )}
+        {stocks?.slice(0, 3).map((stock) => (
+          <StockInfo stock={stock} key={stock._id} />
+        ))}
+        {stocks?.length > 3 && (
+          <li className="tabular pt-3 text-right text-xs text-zinc-500">
+            + {stocks.length - 3} more
+          </li>
+        )}
+      </ul>
     </div>
   );
 }
