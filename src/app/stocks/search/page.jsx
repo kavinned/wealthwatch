@@ -17,7 +17,7 @@ export default function Search() {
 			await new Promise((resolve) => setTimeout(resolve, 100));
 			try {
 				const response = await fetch(
-					`https://api.polygon.io/v3/reference/tickers?search=${encodeURIComponent(searchTerm)}&active=true&order=asc&limit=100&apiKey=${process.env.NEXT_PUBLIC_POLYGON_API_KEY}`,
+					`/api/stocks/search?q=${encodeURIComponent(searchTerm)}`,
 				);
 				if (!response.ok) throw new Error(`Search failed: ${response.status}`);
 				const data = await response.json();

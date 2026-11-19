@@ -36,6 +36,24 @@ export async function fetchStockQuotes(symbols = []) {
 	);
 }
 
+export async function searchStocks(query) {
+	try {
+		const data = await yahooFinance.search(query, {
+			quotesCount: 25,
+			newsCount: 0,
+		});
+		return (data.quotes ?? [])
+			.filter((quote) => quote.symbol)
+			.map((quote) => ({
+				ticker: quote.symbol.toUpperCase(),
+				name: quote.shortname || quote.longname || quote.symbol,
+			}));
+	} catch (error) {
+		console.log(error);
+		return [];
+	}
+}
+
 export async function fetchStockData(ticker) {
 	const symbol = ticker.toUpperCase();
 	let summary, chart;

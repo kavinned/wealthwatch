@@ -11,7 +11,6 @@ This is an app that allows users to create and view budgets and transactions for
 - Tailwind CSS 4
 - Chart.js
 - Yahoo Finance API
-- Polygon.io API
 
 ## Getting Started
 
