@@ -7,7 +7,7 @@ export default function GainersLosersList({ stock, text }) {
 	return (
 		<li className="w-full">
 			<Link href={`/stocks/${stock.ticker}`} className="block">
-				<div className="card-dark flex items-center justify-between gap-3 p-3 transition-colors duration-150 hover:ring-emerald-400/40">
+				<div className="card-dark flex items-center justify-between gap-3 p-3 transition-colors duration-150 hover:bg-zinc-800">
 					<p className="tabular truncate text-sm font-semibold text-zinc-100">
 						{stock.ticker}
 					</p>
