@@ -4,13 +4,14 @@ This is an app that allows users to create and view budgets and transactions for
 
 ## Technologies
 
-- NextJS
+- Next.js 16 (App Router)
+- React 19
 - Next-Auth
-- MongoDB and Mongoose
-- Tailwind
+- MongoDB Atlas and Mongoose
+- Tailwind CSS 4
 - Chart.js
+- Yahoo Finance API
 - Polygon.io API
-- AlphaVantage API
 
 ## Getting Started
 
