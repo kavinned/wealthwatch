@@ -7,22 +7,33 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 export default async function Admin() {
   const session = await getServerSession(authOptions);
 
+  if (session?.user?.role !== "admin") {
+    return <Unauthorized />;
+  }
+
   const users = await fetch(`${process.env.NEXTAUTH_URL}/api/users`, {
     cache: "no-store",
     revalidate: 0,
   }).then((res) => res.json());
 
-  if (session?.user?.role !== "admin") {
-    return <Unauthorized />;
-  }
-
   return (
-    <div className="flex h-[100vh-7dvh] w-full flex-col items-center justify-center">
-      <ul className="w-[50rem] max-w-[90dvw] space-y-4 divide-y divide-gray-500 p-5">
-        {users.map((user) => (
-          <UsersList key={user._id} user={user} />
-        ))}
-      </ul>
+    <div className="page-shell py-8">
+      <div>
+        <p className="text-sm font-medium text-muted">Admin</p>
+        <h1 className="page-title mt-1">Users</h1>
+      </div>
+
+      {users.length === 0 ? (
+        <div className="card-light mt-6 p-6 text-sm text-muted">
+          No users to show. Admins are excluded from this list.
+        </div>
+      ) : (
+        <ul className="mt-6 space-y-3">
+          {users.map((user) => (
+            <UsersList key={user._id} user={user} />
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

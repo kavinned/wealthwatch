@@ -20,16 +20,29 @@ export default function UsersList({ user }) {
   }
 
   return (
-    <li className="border-0 p-3">
-      <div className="flex items-center space-x-4 rounded-lg border-0 bg-zinc-800 p-3 shadow-md shadow-zinc-500 drop-shadow-md rtl:space-x-reverse">
-        <div className="min-w-0 flex-1 rounded-xl">
-          <p className="text-xs font-light text-gray-200">{user.email}</p>
-          <p className="text-sm font-semibold text-gray-200">{user.name}</p>
+    <li>
+      <div className="card-dark flex items-center gap-2 p-4">
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-xs text-zinc-400">{user.email}</p>
+          <p className="truncate text-sm font-semibold text-zinc-100">
+            {user.name}
+          </p>
         </div>
-        <Link href={`/admin/${user.email}/edit`} className="text-emerald-400">
+        <Link
+          href={`/admin/${user.email}/edit`}
+          className="btn-icon"
+          aria-label={`Edit ${user.email}`}
+        >
           <FaPencilAlt className="edit" />
         </Link>
-        <FaTrashAlt className="trash" onClick={handleDelete} />
+        <button
+          type="button"
+          className="btn-icon hover:bg-red-500/10 hover:text-red-400"
+          onClick={handleDelete}
+          aria-label={`Delete ${user.email}`}
+        >
+          <FaTrashAlt className="trash" />
+        </button>
       </div>
     </li>
   );

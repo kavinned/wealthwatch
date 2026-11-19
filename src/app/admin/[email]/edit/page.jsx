@@ -37,8 +37,11 @@ export default function EditUserPage({ params }) {
   }
 
   return (
-    <div className="flex h-[calc(100vh-7vh)] w-screen flex-col items-center justify-center">
+    <div className="flex items-center justify-center px-4 py-8">
       <form className="form" onSubmit={handleSubmit}>
+        <h1 className="text-center text-lg font-semibold text-ink">
+          Edit user
+        </h1>
         <label htmlFor="name">Name:</label>
         <input
           type="text"
