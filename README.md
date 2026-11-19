@@ -2,32 +2,6 @@
 
 This is an app that allows users to create and view budgets and transactions for each budget. Users can also search for and view information about stocks and add them to a list to track them.
 
-## Screenshots
-
-##### Dashboard
-
-<img src="public/dash.png">
-
-##### Budget
-
-<img src="public/budget.png">
-
-##### Transaction
-
-<img  src="public/tx.png">
-
-##### Stock
-
-<img src="public/stock.png">
-
-##### Stock Info
-
-<img src="public/stockinfo.png">
-
-##### Admin Dashboard
-
-<img src="public/user.png">
-
 ## Technologies
 
 - NextJS
