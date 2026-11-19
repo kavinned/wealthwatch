@@ -51,40 +51,62 @@ export default function SignUpForm() {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit} className="form mb-3">
-        <label htmlFor="name"> Name: </label>
-        <input type="text" id="name" name="name" placeholder="name" />
-        <label htmlFor="email"> Email: </label>
-        <input type="email" id="email" name="email" placeholder="email" />
-        <label htmlFor="password"> Password: </label>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-1.5">
+        <label htmlFor="name" className="label">
+          Name
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Your name"
+          autoComplete="name"
+          className="field"
+        />
+      </div>
+      <div className="space-y-1.5">
+        <label htmlFor="email" className="label">
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="you@example.com"
+          autoComplete="email"
+          className="field"
+        />
+      </div>
+      <div className="space-y-1.5">
+        <label htmlFor="password" className="label">
+          Password
+        </label>
         <input
           type="password"
           id="password"
           name="password"
-          placeholder="password"
+          placeholder="••••••••"
+          autoComplete="new-password"
+          className="field"
         />
-        <button type="submit">Sign Up</button>
-        {error == true && (
-          <span className="flex justify-center">
-            <p className="field-error">Please enter all fields</p>
-          </span>
-        )}
-        {userExistError && (
-          <span className="flex justify-center">
-            <p className="field-error">{userExistError}</p>
-          </span>
-        )}
-      </form>
-      <p>
-        Go back to{" "}
+      </div>
+      {error === true && (
+        <p className="field-error mx-auto">Please enter all fields</p>
+      )}
+      {userExistError && <p className="field-error mx-auto">{userExistError}</p>}
+      <button type="submit" className="btn btn-primary w-full">
+        Sign Up
+      </button>
+      <p className="pt-2 text-center text-sm text-muted">
+        Already have an account?{" "}
         <Link
-          className="bubble border border-slate-800 bg-slate-700 font-bold text-slate-200 transition-all duration-75 ease-linear hover:border-slate-800/30 hover:bg-slate-500"
           href="/"
+          className="font-semibold text-emerald-700 hover:text-emerald-600"
         >
-          Login
+          Log in
         </Link>
       </p>
-    </>
+    </form>
   );
 }

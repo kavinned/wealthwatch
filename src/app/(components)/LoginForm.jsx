@@ -15,9 +15,6 @@ export default function LoginForm() {
     if (session) {
       router.push("/dashboard");
     }
-    if (session === null) {
-      router.replace("/");
-    }
   }, [session, router]);
 
   const handleSubmit = async (event) => {
@@ -48,33 +45,46 @@ export default function LoginForm() {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit} className="form mb-3">
-        <label htmlFor="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="email" />
-        <label htmlFor="password">Password</label>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-1.5">
+        <label htmlFor="email" className="label">
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="you@example.com"
+          autoComplete="email"
+          className="field"
+        />
+      </div>
+      <div className="space-y-1.5">
+        <label htmlFor="password" className="label">
+          Password
+        </label>
         <input
           type="password"
           id="password"
           name="password"
-          placeholder="password"
+          placeholder="••••••••"
+          autoComplete="current-password"
+          className="field"
         />
-        <button type="submit">Log In</button>
-        {error !== "" && (
-          <span className="flex justify-center">
-            <p className="field-error">{error}</p>
-          </span>
-        )}
-      </form>
-      <p className="m-0 p-0 text-center">
+      </div>
+      {error !== "" && <p className="field-error mx-auto">{error}</p>}
+      <button type="submit" className="btn btn-primary w-full">
+        Log In
+      </button>
+      <p className="pt-2 text-center text-sm text-muted">
         No account?{" "}
         <Link
-          className="bubble border border-slate-800 bg-slate-700 font-bold text-slate-200 transition-all duration-75 ease-linear hover:border-slate-800/30 hover:bg-slate-500"
           href="/signup"
+          className="font-semibold text-emerald-700 hover:text-emerald-600"
         >
-          Sign Up
+          Sign up
         </Link>
       </p>
-    </>
+    </form>
   );
 }
