@@ -2,6 +2,26 @@
 
 This is an app that allows users to create and view budgets and transactions for each budget. Users can also search for and view information about stocks and add them to a list to track them.
 
+## Screenshots
+
+**Dashboard**
+![Dashboard](public/dash.png)
+
+**Budgets**
+![Budgets](public/budget.png)
+
+**Transactions**
+![Transactions](public/tx.png)
+
+**Stock search**
+![Stock search](public/stock.png)
+
+**Stock info**
+![Stock info](public/stockinfo.png)
+
+**User**
+![User](public/user.png)
+
 ## Technologies
 
 - Next.js 16 (App Router)
