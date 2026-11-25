@@ -1,8 +1,10 @@
+import AuthGate from "./(components)/AuthGate";
 import LoginForm from "./(components)/LoginForm";
 
 export default function Home() {
   return (
-    <div className="grid min-h-[100svh] lg:grid-cols-2">
+    <AuthGate>
+      <div className="grid min-h-[100svh] lg:grid-cols-2">
       <section className="hidden bg-zinc-900 p-12 text-white lg:flex lg:flex-col lg:justify-between">
         <div className="flex items-center gap-2 text-sm font-semibold tracking-wide">
           <span className="h-2 w-2 rounded-full bg-emerald-400" />
@@ -257,6 +259,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </AuthGate>
   );
 }

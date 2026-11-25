@@ -1,23 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 
 export default function LoginForm() {
-  const router = useRouter();
   const [error, setError] = useState("");
-  const [demoBusy, setDemoBusy] = useState(false);
+  const [busy, setBusy] = useState(null);
   const [toast, setToast] = useState(false);
-  const { data: session } = useSession();
+  const resetTimer = useRef(null);
 
-  useEffect(() => {
-    if (session) {
-      router.push("/dashboard");
-    }
-  }, [session, router]);
+  useEffect(() => () => clearTimeout(resetTimer.current), []);
 
   useEffect(() => {
     let dismiss;
@@ -39,8 +32,17 @@ export default function LoginForm() {
     };
   }, []);
 
+  const scheduleSessionTimeout = () => {
+    clearTimeout(resetTimer.current);
+    resetTimer.current = setTimeout(() => {
+      setError("Session could not be established. Check cookies and try again.");
+      setBusy(null);
+    }, 4000);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (busy !== null) return;
     setError("");
     const formData = new FormData(event.target);
     const email = formData.get("email");
@@ -49,30 +51,34 @@ export default function LoginForm() {
       setError("Please enter all fields");
       return;
     }
+    setBusy("login");
     try {
       const res = await signIn("credentials", {
         email,
         password,
         redirect: false,
       });
-      if (!res.ok) {
-        setError("Invalid Credentials");
+      if (res?.ok) {
+        scheduleSessionTimeout();
         return;
-      } else if (res.ok) {
-        router.push("/dashboard");
       }
+      setError("Invalid Credentials");
+      setBusy(null);
     } catch (error) {
       console.log(error);
+      setError("Could not log in");
+      setBusy(null);
     }
   };
 
   const handleDemo = async () => {
+    if (busy !== null) return;
     setError("");
-    setDemoBusy(true);
+    setBusy("demo");
     try {
       const res = await signIn("credentials", { demo: "1", redirect: false });
       if (res?.ok) {
-        router.push("/dashboard");
+        scheduleSessionTimeout();
         return;
       }
       setError(
@@ -80,11 +86,11 @@ export default function LoginForm() {
           ? "Demo is at capacity, try later."
           : "Could not start the demo",
       );
+      setBusy(null);
     } catch (error) {
       console.log(error);
       setError("Could not start the demo");
-    } finally {
-      setDemoBusy(false);
+      setBusy(null);
     }
   };
 
@@ -117,16 +123,16 @@ export default function LoginForm() {
         />
       </div>
       {error !== "" && <p className="field-error mx-auto">{error}</p>}
-      <button type="submit" className="btn btn-primary w-full">
-        Log In
+      <button type="submit" disabled={busy !== null} className="btn btn-primary w-full">
+        {busy === "login" ? "Logging in…" : "Log In"}
       </button>
       <button
         type="button"
         onClick={handleDemo}
-        disabled={demoBusy}
+        disabled={busy !== null}
         className="btn btn-secondary w-full"
       >
-        {demoBusy ? "Starting demo…" : "Try the demo"}
+        {busy === "demo" ? "Starting demo…" : "Try the demo"}
       </button>
       {toast && (
         <p
